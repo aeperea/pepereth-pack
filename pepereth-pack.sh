@@ -1,15 +1,5 @@
 #!/bin/bash
 
-platform='unknown'
-unamestr=`uname`
-if [[ "$unamestr" == 'Linux' ]]; then
-    platform='linux'
-    linux_installer
-elif [[ "$unamestr" == 'Darwin' ]]; then
-    platform='osx'
-    osx_installer
-fi
-
 package_list=(
     'zsh'
     'git'
@@ -72,14 +62,24 @@ linux_installer ()
     echo "Installing repositories"
     for i in "${linux_repos[@]}"
     do
-	      apt-add-repository $i
+	      sudo apt-add-repository $i
     done
 
     echo "Intstalling packages"
     for i in "${package_list[@]}"
     do
-	      apt-get install -y $i
+	      sudo apt-get install -y $i
     done
 
     git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 }
+
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+    platform='linux'
+    linux_installer
+elif [[ "$unamestr" == 'Darwin' ]]; then
+    platform='osx'
+    osx_installer
+fi
